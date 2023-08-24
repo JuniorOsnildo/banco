@@ -1,0 +1,95 @@
+import javax.swing.*;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class Conta {
+
+    private final String nomeTitular;
+    private final String numeroConta;
+    private double saldo;
+    private static final Random rand = new Random();
+
+    public static final List<Conta> bancoDeContas = new ArrayList<>();
+
+    private final DecimalFormat df = new DecimalFormat("0.00");
+
+    public Conta(String nomeTitular, String numeroConta, double saldo) {
+        this.nomeTitular = nomeTitular;
+        this.numeroConta = numeroConta;
+        this.saldo = saldo;
+    }
+
+    public String getNomeTitular() {
+        return nomeTitular;
+    }
+
+    public String getNumeroConta() {
+        return numeroConta;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void saque (double valor){
+        valor += impostoIOF(valor);
+        if(valor <= this.saldo) {
+            this.saldo -= valor;
+        }
+        else {
+            JOptionPane.showMessageDialog(null,"Saldo insuficiente!");
+        }
+
+    }
+    public void deposito (double valor){
+        this.saldo += valor;
+    }
+
+    private double impostoIOF (double valor){
+        valor = valor*0.01;
+        if(valor >= 5)
+            valor = 5;
+        return valor;
+    }
+
+    public static double verificarSaldo (double valor){
+        while (valor < 0)
+            valor = Double.parseDouble(JOptionPane.showInputDialog(null,
+                    "forneça um novo saldo"));
+        return valor;
+    }
+
+    public static String gerarNumeroConta(){
+        String numConta;
+        do{
+            numConta = String.valueOf(rand.nextInt(1, 9999));
+            int digitos = numConta.length();
+
+            switch (digitos) {
+                case 1 -> numConta = "000" + numConta;
+                case 2 -> numConta = "00" + numConta;
+                case 3 -> numConta = "0" + numConta;
+            }
+        }while(verificarNumeroConta(numConta));
+
+        return numConta;
+    }
+
+    private static boolean verificarNumeroConta(String numConta){
+        for (Conta conta :
+             bancoDeContas) {
+            if (numConta.equals(conta.numeroConta))
+                    return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString(){
+        return "Nome do titular: "+this.nomeTitular+
+                "\nNumero da conta: "+this.numeroConta+
+                "\nSaldo: R$"+ df.format(this.saldo);
+    }
+}
