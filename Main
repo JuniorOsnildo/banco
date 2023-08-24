@@ -1,0 +1,25 @@
+import javax.swing.JOptionPane;
+
+public class Main {
+    public static void main(String[] args) {
+
+        String escolha;
+        boolean menu = true;
+
+            Conta conta = ContaRepository.criarConta();
+
+            while (menu) {
+                escolha = JOptionPane.showInputDialog(null, Sistema.menu());
+
+                switch (escolha) {
+                    case "1" -> JOptionPane.showMessageDialog(null, conta.toString());
+                    case "2" -> conta.saque(Double.parseDouble(JOptionPane.showInputDialog(null, "Valor do saque")));
+                    case "3" -> conta.deposito(Double.parseDouble(JOptionPane.showInputDialog(null, "Valor do deposito")));
+                    case "4" -> conta = ContaRepository.login();
+                    case "5" -> conta = ContaRepository.criarConta();
+                    case "6" -> menu = false;
+
+                }
+            }
+        }
+    }
