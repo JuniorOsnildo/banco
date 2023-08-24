@@ -1,0 +1,29 @@
+import javax.swing.*;
+
+public class ContaRepository {
+    public static Conta criarConta() {
+        String nome = JOptionPane.showInputDialog(null, "Nome da conta");
+        double saldo = Conta.verificarSaldo(Double.parseDouble(JOptionPane.showInputDialog(null, "Saldo inicial da conta")));
+        Conta conta = new Conta(nome, Conta.gerarNumeroConta(), saldo);
+        Conta.bancoDeContas.add(conta);
+        JOptionPane.showMessageDialog(null, conta.toString());
+        return conta;
+    }
+
+    public static Conta login() {
+        String nome;
+        String numConta;
+
+        while (true) {
+            nome = JOptionPane.showInputDialog("Nome do titular da conta:");
+            numConta = JOptionPane.showInputDialog("Numero da conta:");
+
+            for (Conta conta :
+                    Conta.bancoDeContas) {
+                if (nome.equals(conta.getNomeTitular()) && numConta.equals(conta.getNumeroConta()))
+                    return conta;
+            }
+        }
+    }
+}
+
