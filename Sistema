@@ -1,0 +1,12 @@
+public class Sistema {
+    public static String menu(){
+        return ("""
+                [1] - Verificar conta
+                [2] - Realizar saque
+                [3] - Realizar depósito
+                [4] - Entrar com outra conta
+                [5] - Criar uma nova conta
+                [6] - Sair""");
+
+    }
+}
